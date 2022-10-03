@@ -8,9 +8,9 @@ each merge. A test is said to “pass” if it produces a consistent
 ontology with no unsatisfiable classes when merged with the main
 ontology.
 
-The name comes the _Drosophila melanogaster_ gene _ocelliless_, which is
-also known as _orthodenticle_ or _odt_. Here, Ocelliless is an “Ontology
-Tests Driver” or “ODT”.
+The name from comes the _Drosophila melanogaster_ gene _ocelliless_,
+which is also known as _orthodenticle_ or _odt_. Here, Ocelliless is an
+“Ontology Tests Driver” or “ODT”.
 
 
 Installation
@@ -94,7 +94,7 @@ will actually _fail_ if it does not produce it):
 Run those two tests against the released version of FBbt:
 
 ```sh
-java -jar ocelliless-0.0.1-SNAPSHOT-jar-with-dependencies.jar \
+$ java -jar ocelliless-0.0.1-SNAPSHOT-jar-with-dependencies.jar \
   -c annotations.ofn -i fbbt-full.owl tests/test1.ttl tests/test2.ttl
 ocelliless: Test 1/2 (tests/test1.ttl): PASS
 ocelliless: Test 2/2 (tests/test2.ttl): PASS
