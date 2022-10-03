@@ -9,8 +9,8 @@ ontology with no unsatisfiable classes when merged with the main
 ontology.
 
 The name from comes the _Drosophila melanogaster_ gene _ocelliless_,
-which is also known as _orthodenticle_ or _odt_. Here, Ocelliless is an
-“Ontology Tests Driver” or “ODT”.
+which is also known as _orthodenticle_ or _otd_. Here, Ocelliless is an
+“Ontology Tests Driver” or “OTD”.
 
 
 Installation
