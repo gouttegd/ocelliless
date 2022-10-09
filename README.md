@@ -8,7 +8,7 @@ each merge. A test is said to “pass” if it produces a consistent
 ontology with no unsatisfiable classes when merged with the main
 ontology.
 
-The name from comes the _Drosophila melanogaster_ gene _ocelliless_,
+The name comes from the _Drosophila melanogaster_ gene _ocelliless_,
 which is also known as _orthodenticle_ or _otd_. Here, Ocelliless is an
 “Ontology Tests Driver” or “OTD”.
 
@@ -133,5 +133,5 @@ License, version 3 or higher. The full license is included in the
 
 Repository
 ----------
-The latest source code is available in a Git repository at
-<https://git.incenp.org/damien/ocelliless>.
+The latest source code is available in a Git repository at 
+<https://github.com/gouttegd/ocelliless>.
