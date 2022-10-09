@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
@@ -31,6 +32,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.semanticweb.elk.owlapi.ElkReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.FunctionalSyntaxDocumentFormat;
 import org.semanticweb.owlapi.model.OWLAnnotationAxiom;
@@ -151,21 +153,27 @@ public class Program {
     }
 
     private boolean process(String inputOntology, String[] tests, String componentFile) {
-        TestDriver driver = new TestDriver();
-        driver.setOntology(loadOntology(inputOntology, true));
+        OWLOntology ontology = loadOntology(inputOntology, true);
+        ElkReasonerFactory reasonerFactory = new ElkReasonerFactory();
+        List<OWLAnnotationAxiom> annotations = new ArrayList<OWLAnnotationAxiom>();
 
         int passed = 0;
         for (int i = 0; i < tests.length; i++) {
+            OWLOntology testOntology = loadOntology(tests[i], false);
             String result;
-            OWLOntology test = loadOntology(tests[i], false);
-            if (test == null) {
+            if (testOntology == null) {
                 result = "ERROR";
-            } else if (driver.runTest(test, tests[i])) {
-                result = "PASS";
-                passed += 1;
             }
             else {
-                result = "FAIL";
+                ITest test = new MergeTest(testOntology, reasonerFactory, tests[i]);
+                if (test.run(ontology)) {
+                    result = "PASS";
+                    passed += 1;
+                } else {
+                    result = "FAIL";
+                }
+
+                annotations.addAll(test.getAnnotations(ontology));
             }
 
             info("Test %d/%d (%s): %s", i + 1, tests.length, tests[i], result);
@@ -175,7 +183,6 @@ public class Program {
 
         
         if (componentFile != null) {
-            List<OWLAnnotationAxiom> annotations = driver.getAnnotations();
             if (annotations.size() > 0 ) {
                 info("Saving annotations component to %s", componentFile);
                 
