@@ -10,11 +10,11 @@
 		<dependency>
 			<groupId>net.sourceforge.owlapi</groupId>
 			<artifactId>owlapi-distribution</artifactId>
-			<version>4.5.6</version>
+			<version>5.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>au.csiro</groupId>
-			<artifactId>elk-distribution-owlapi4</artifactId>
+			<artifactId>elk-distribution-owlapi5</artifactId>
 			<version>0.5.0</version>
 		</dependency>
 		<dependency>
