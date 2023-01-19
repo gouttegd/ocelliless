@@ -233,8 +233,6 @@ public class Program {
         Program p = new Program();
         CommandLine cmd = p.parseArguments(args);
 
-        System.setProperty("log4j.configuration", "ocelliless-log4j.properties");
-
         boolean ok = p.process(cmd.getOptionValue('i'), cmd.getArgs(),
             cmd.getOptionValue('c', null));
         System.exit(ok ? NO_ERROR : FAILED_TESTS_ERROR);
