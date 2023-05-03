@@ -70,15 +70,14 @@ public class MergeTest implements ITest {
 
     public List<OWLAnnotationAxiom> getAnnotations(OWLOntology ontology) {
         OWLDataFactory factory = test.getOWLOntologyManager().getOWLDataFactory();
-        OWLAnnotationProperty property = factory
-            .getOWLAnnotationProperty(IRI.create(OCELLILESS_TESTLOC_IRI));
+        OWLAnnotationProperty property = factory.getOWLAnnotationProperty(IRI.create(OCELLILESS_TESTLOC_IRI));
         ArrayList<OWLAnnotationAxiom> axioms = new ArrayList<OWLAnnotationAxiom>();
         String baseIRI = getOntologyBaseIRI(ontology);
 
-        for (OWLAnnotation annot : test.getAnnotations()) {
-            if (annot.getProperty().getIRI().toString().equals(OCELLILESS_TARGET_IRI)) {
+        for ( OWLAnnotation annot : test.getAnnotations() ) {
+            if ( annot.getProperty().getIRI().toString().equals(OCELLILESS_TARGET_IRI) ) {
                 OWLAnnotationAxiom axiom = factory.getOWLAnnotationAssertionAxiom(property,
-                    annot.getValue().asIRI().get(), IRI.create(baseIRI + baseName));
+                        annot.getValue().asIRI().get(), IRI.create(baseIRI + baseName));
                 axioms.add(axiom);
             }
         }
@@ -97,8 +96,8 @@ public class MergeTest implements ITest {
      * @return True if the test is expected to fail, False otherwise.
      */
     protected boolean isExpectedFailure() {
-        for (OWLAnnotation annot : test.getAnnotations()) {
-            if (annot.getProperty().getIRI().toString().equals(OCELLILESS_XFAIL_IRI)) {
+        for ( OWLAnnotation annot : test.getAnnotations() ) {
+            if ( annot.getProperty().getIRI().toString().equals(OCELLILESS_XFAIL_IRI) ) {
                 return annot.getValue().asLiteral().get().getLiteral().equalsIgnoreCase("yes");
             }
         }

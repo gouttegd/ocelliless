@@ -71,7 +71,7 @@ public class Program {
     }
 
     private OWLOntologyManager getManager() {
-        if (ontologyManager == null) {
+        if ( ontologyManager == null ) {
             ontologyManager = OWLManager.createOWLOntologyManager();
         }
         return ontologyManager;
@@ -79,28 +79,14 @@ public class Program {
 
     private Options getOptions() {
         Options opts = new Options();
-        opts.addOption(Option.builder("i")
-            .longOpt("input")
-            .hasArg()
-            .argName("ONTOLOGY")
-            .desc("The ontology to check.")
-            .build());
+        opts.addOption(Option.builder("i").longOpt("input").hasArg().argName("ONTOLOGY").desc("The ontology to check.")
+                .build());
 
-        opts.addOption(Option.builder("c")
-            .longOpt("component")
-            .hasArg()
-            .argName("FILE")
-            .desc("Save annotations to a new component.")
-            .build());
+        opts.addOption(Option.builder("c").longOpt("component").hasArg().argName("FILE")
+                .desc("Save annotations to a new component.").build());
 
-        opts.addOption(Option.builder("v")
-            .longOpt("version")
-            .desc("Print version information.")
-            .build());
-        opts.addOption(Option.builder("h")
-            .longOpt("help")
-            .desc("Print the help message.")
-            .build());
+        opts.addOption(Option.builder("v").longOpt("version").desc("Print version information.").build());
+        opts.addOption(Option.builder("h").longOpt("help").desc("Print the help message.").build());
 
         return opts;
     }
@@ -112,23 +98,19 @@ public class Program {
 
         try {
             cmd = parser.parse(options, args);
-        } catch (ParseException e) {
+        } catch ( ParseException e ) {
             showHelp(options, e.getMessage());
         }
 
-        if (cmd.hasOption('h')) {
+        if ( cmd.hasOption('h') ) {
             showHelp(options, null);
-        }
-        else if (cmd.hasOption('v')) {
-            System.out.println(String.format("Ocelliless %s\n" +
-                "Copyright © 2022 Damien Goutte-Gattat\n\n" +
-                "This program is released under the GNU General Public License.\n", getVersion()));
+        } else if ( cmd.hasOption('v') ) {
+            System.out.println(String.format("Ocelliless %s\n" + "Copyright © 2022 Damien Goutte-Gattat\n\n"
+                    + "This program is released under the GNU General Public License.\n", getVersion()));
             System.exit(NO_ERROR);
-        }
-        else if (!cmd.hasOption('i')) {
+        } else if ( !cmd.hasOption('i') ) {
             showHelp(options, "Missing required option -i");
-        }
-        else if (cmd.getArgs().length == 0) {
+        } else if ( cmd.getArgs().length == 0 ) {
             showHelp(options, "Missing unit tests");
         }
 
@@ -141,11 +123,10 @@ public class Program {
 
     private void showHelp(Options options, String errorMessage) {
         HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("ocelliless [options] -i <ONTOLOGY> <TEST...>",
-            "Run unit tests on an ontology\n\nOptions:", options,
-            "\nReport bugs to Damien Goutte-gattat <dgouttegattat@incenp.org>\n\n");
+        formatter.printHelp("ocelliless [options] -i <ONTOLOGY> <TEST...>", "Run unit tests on an ontology\n\nOptions:",
+                options, "\nReport bugs to Damien Goutte-gattat <dgouttegattat@incenp.org>\n\n");
 
-        if (errorMessage != null) {
+        if ( errorMessage != null ) {
             error(COMMAND_LINE_ERROR, "Invalid command line: %s", errorMessage);
         }
 
@@ -158,15 +139,14 @@ public class Program {
         List<OWLAnnotationAxiom> annotations = new ArrayList<OWLAnnotationAxiom>();
 
         int passed = 0;
-        for (int i = 0; i < tests.length; i++) {
+        for ( int i = 0; i < tests.length; i++ ) {
             OWLOntology testOntology = loadOntology(tests[i], false);
             String result;
-            if (testOntology == null) {
+            if ( testOntology == null ) {
                 result = "ERROR";
-            }
-            else {
+            } else {
                 ITest test = new MergeTest(testOntology, reasonerFactory, tests[i]);
-                if (test.run(ontology)) {
+                if ( test.run(ontology) ) {
                     result = "PASS";
                     passed += 1;
                 } else {
@@ -178,38 +158,33 @@ public class Program {
 
             info("Test %d/%d (%s): %s", i + 1, tests.length, tests[i], result);
         }
-        
+
         info("%s: %d/%d tests passed", inputOntology, passed, tests.length);
 
-        
-        if (componentFile != null) {
-            if (annotations.size() > 0 ) {
+        if ( componentFile != null ) {
+            if ( annotations.size() > 0 ) {
                 info("Saving annotations component to %s", componentFile);
-                
+
                 OWLOntology component;
                 try {
                     component = getManager().createOntology();
-                    
-                    for (OWLAnnotationAxiom axiom: annotations) {
+
+                    for ( OWLAnnotationAxiom axiom : annotations ) {
                         getManager().addAxiom(component, axiom);
                     }
                     File f = new File(componentFile);
                     component.saveOntology(new FunctionalSyntaxDocumentFormat(), new FileOutputStream(f));
-                }
-                catch (OWLOntologyCreationException e) {
-                    error(ONTOLOGY_WRITING_ERROR, "Cannot create annotations component: %s",
-                        e.getMessage());
-                }
-                catch (OWLOntologyStorageException e) {
-                    error(ONTOLOGY_WRITING_ERROR, "Cannot save annotations component: %s",
-                        e.getMessage());
-                } catch (FileNotFoundException e) {
-                    error(ONTOLOGY_WRITING_ERROR, "Cannot write annotations component to %s: %s",
-                        componentFile, e.getMessage());
+                } catch ( OWLOntologyCreationException e ) {
+                    error(ONTOLOGY_WRITING_ERROR, "Cannot create annotations component: %s", e.getMessage());
+                } catch ( OWLOntologyStorageException e ) {
+                    error(ONTOLOGY_WRITING_ERROR, "Cannot save annotations component: %s", e.getMessage());
+                } catch ( FileNotFoundException e ) {
+                    error(ONTOLOGY_WRITING_ERROR, "Cannot write annotations component to %s: %s", componentFile,
+                            e.getMessage());
                 }
             }
         }
-        
+
         return passed == tests.length;
     }
 
@@ -219,10 +194,9 @@ public class Program {
 
         try {
             ont = getManager().loadOntologyFromOntologyDocument(f);
-        } catch (Exception e) {
-            if (exitOnError) {
-                error(ONTOLOGY_LOADING_ERROR, "Cannot load ontology %s: %s", filename,
-                    e.getMessage());
+        } catch ( Exception e ) {
+            if ( exitOnError ) {
+                error(ONTOLOGY_LOADING_ERROR, "Cannot load ontology %s: %s", filename, e.getMessage());
             }
         }
 
@@ -233,8 +207,7 @@ public class Program {
         Program p = new Program();
         CommandLine cmd = p.parseArguments(args);
 
-        boolean ok = p.process(cmd.getOptionValue('i'), cmd.getArgs(),
-            cmd.getOptionValue('c', null));
+        boolean ok = p.process(cmd.getOptionValue('i'), cmd.getArgs(), cmd.getOptionValue('c', null));
         System.exit(ok ? NO_ERROR : FAILED_TESTS_ERROR);
     }
 }
