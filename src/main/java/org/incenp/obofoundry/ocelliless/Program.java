@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.incenp.ocelliless;
+package org.incenp.obofoundry.ocelliless;
 
 import java.io.File;
 import java.io.FileNotFoundException;

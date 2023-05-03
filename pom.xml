@@ -50,7 +50,7 @@
 							<transformers>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>org.incenp.ocelliless.Program</mainClass>
+									<mainClass>org.incenp.obofoundry.ocelliless.Program</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>
