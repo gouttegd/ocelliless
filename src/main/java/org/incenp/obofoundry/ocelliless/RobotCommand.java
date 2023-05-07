@@ -32,6 +32,7 @@ public class RobotCommand implements Command {
         options.addOption("c", "component", true, "save annotations to file");
         options.addOption("r", "reasoner", true, "reasoner to use");
         options.addOption("x", "abort", false, "abort pipeline if a test fails");
+        options.addOption("m", "merge", false, "merge annotations into the ontology");
     }
 
     public String getName() {
@@ -113,6 +114,14 @@ public class RobotCommand implements Command {
             }
             File f = new File(componentFile);
             component.saveOntology(new FunctionalSyntaxDocumentFormat(), new FileOutputStream(f));
+        }
+
+        if ( line.hasOption('m') && annotations.size() > 0 ) {
+            OWLOntology ontology = state.getOntology();
+            OWLOntologyManager mgr = ontology.getOWLOntologyManager();
+            for ( OWLAnnotationAxiom axiom : annotations ) {
+                mgr.addAxiom(ontology, axiom);
+            }
         }
 
         if ( passed < tests.length && line.hasOption('x') ) {
