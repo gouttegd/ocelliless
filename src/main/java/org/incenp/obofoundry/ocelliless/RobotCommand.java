@@ -31,6 +31,7 @@ public class RobotCommand implements Command {
         options.addOption("t", "test", true, "load test from file");
         options.addOption("c", "component", true, "save annotations to file");
         options.addOption("r", "reasoner", true, "reasoner to use");
+        options.addOption("x", "abort", false, "abort pipeline if a test fails");
     }
 
     public String getName() {
@@ -112,6 +113,10 @@ public class RobotCommand implements Command {
             }
             File f = new File(componentFile);
             component.saveOntology(new FunctionalSyntaxDocumentFormat(), new FileOutputStream(f));
+        }
+
+        if ( passed < tests.length && line.hasOption('x') ) {
+            throw new Exception("Some tests failed");
         }
 
         return state;
